@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title >博客详情</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+    <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+    <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
+</head>
+<body>
+
+<!--    导航-->
+<nav  th:replace="_fragments :: menu(1)"  class="ui inverted attached segment m-padding-tb-min  m-shadow-small">    <!--inverted反转-->
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header m-lxd-blog">Cris</h2>
+            <a href="#" th:href="@{/index.html}" class="active m-item item m-mobile-hide"><i class="home icon"></i>首页</a>
+            <a href="#"  th:href="@{/types.html}" class="m-item item m-mobile-hide"><i class="idea icon"></i></icon>分类</a>
+            <a href="#"  th:href="@{/tags.html}"  class="m-item item m-mobile-hide"><i class="tags icon"></i>标签</a>
+            <a href="#"  th:href="@{/archives.html}" class="m-item item m-mobile-hide"><i class="clone icon"></i>归档</a>
+            <a href="#"  th:href="@{/about.html}" class="m-item item m-mobile-hide"><i class="info icon"></i>关于我 </a>
+            <div class="right item m-mobile-hide">
+                <div class="ui icon inverted transparent input">
+                    <input type="text" placeholder="search......">
+                    <i class="search link icon"></i>
+                </div>
+            </div>    <!--right iten表示靠右-->
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-top-right m-mobile-show">       <!--menu toggle   没有显示意义，jquery获取元素-->
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+<!--中间内容-->
+<div class="m-container-small m-padding-tb-large animated flash">   <!--animated fadeIn     是插件，flash  表示显示效果-->
+    <div class="ui container">
+        <div class="ui top attached segment">
+            <div class="ui horizontal link list">    <!--horizontal表示横着的-->
+                <div class="item">
+                    <img src="https://picsum.photos/seed/picsum/100/100" th:src="@{${blog.user.avatar}}" alt="" class="ui avatar image">
+                    <div class="content"><a href="#" class="header" th:text="${blog.user.username}">Cris</a></div><!--avatar变为圆形-->
+                </div>
+                <div class="item">
+                    <i class="calendar icon"></i>
+                    <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2020-03-06</span>
+                </div>
+                <div class="item">
+                    <i class="eye icon"></i>
+                    <span th:text="${blog.views}">2342</span>
+                </div>
+            </div>
+        </div>
+        <div class="ui attached segment">
+            <!--图片-->
+            <img src="../static/images/1005-800x450.jpg" th:src="@{${blog.firstPictures}}" alt="" class="ui fluid rounded image">
+        </div>
+        <div class="ui attached padded segment">
+            <!--内容-->
+            <div class="ui right aligned basic segment">
+                <div class="ui orange basic  label" th:text="${blog.flag}">原创</div>
+            </div>
+            <h2 class="ui center aligned header" th:text="${blog.title}">关于Typo css</h2>
+            <div id="content"  class="typo typo-selection js-toc-content m-padding-lr-responsive m-padding-tb-large" th:text=${blog.content}>     <!--js-toc-content 生成目录-->
+            </div>
+
+            <!--标签-->
+            <div class="m-padding-lr">
+                <div class="ui basic teal left pointing label" th:each="tag : ${blog.tags}"   th:text="${tag.name}">方法论</div>
+            </div>
+
+            <!--赞赏-->
+            <div class="ui center aligned basic segment">
+                <button id="payButton" class="ui orange basic circular button">赞赏</button>
+            </div>
+            <div class="ui payQR flowing popup top left transition hidden">   <!--payQ为起名字-->
+                <div class="ui orange basic label">
+                    <div class="ui images" style="font-size: inherit">     <!--inherit继承上一级效果-->
+                        <div class="image">
+                            <img src="../static/images/zfb.jpg"  th:src="@{/images/zfb.jpg}" alt="" class="ui rounded bordered image" style="width: 120px">
+                            <div>支付宝支付</div>
+                        </div>
+                        <div class="image">
+                            <img src="../static/images/wx.jpg" th:src="@{/images/wx.jpg}" alt="" class="ui rounded bordered image" style="width: 120px">
+                            <div>微信支付</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="ui attached positive message">
+           <!-- 博客信息-->
+            <div class="ui middle aligned grid">
+                <div class="eleven wide column">
+                    <ul class="list">
+                        <li>作者：<span th:text="${blog.user.username}">刘旭东</span><a href="#" target="_blank" th:href="@{/about}">(联系作者)</a></li>
+                        <li>发表时间：<span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2020-03-09</span></li>
+                        <li>授权声明：</li>
+                        <li>公众号转载：请在文末添加作者公众号二维码</li>
+                    </ul>
+                </div>
+                <div class="five wide column">
+                    <img src="../static/images/wxgzh.jpg" th:src="@{/images/wxgzh.jpg}" style="width:90px;" alt="" class="ui right floated aligned rounded bordered image">
+                </div>
+            </div>
+        </div>
+        <div id="comment-container" class="ui bottom attached segment">
+            <!--留言区域列表-->
+            <div class="ui teal segment">
+                <!--用的是semantic的comment组件写留言-->
+                <div class="ui threaded comments">
+                    <h3 class="ui dividing header">留言</h3>
+                    <div class="comment">
+                        <a class="avatar">
+                            <img src="../static/images/1005-800x450.jpg" th:src="@{/images/1005-800x450.jpg}">
+                        </a>
+                        <div class="content">
+                            <a class="author">Matt</a>
+                            <div class="metadata">
+                                <span class="date">Today at 5:42PM</span>
+                            </div>
+                            <div class="text">
+                                楼主好文采
+                            </div>
+                            <div class="actions">
+                                <a class="reply">回复</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <a class="avatar">
+                            <img src="../static/images/1005-800x450.jpg" th:src="@{/images/1005-800x450.jpg}">
+                        </a>
+                        <div class="content">
+                            <a class="author">Elliot Fu</a>
+                            <div class="metadata">
+                                <span class="date">Yesterday at 12:30AM</span>
+                            </div>
+                            <div class="text">
+                                <p>This has been very useful for my research. Thanks as well!</p>
+                            </div>
+                            <div class="actions">
+                                <a class="reply">回复</a>
+                            </div>
+                        </div>
+                        <div class="comments">
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img src="../static/images/1005-800x450.jpg" th:src="@{/images/1005-800x450.jpg}">
+                                </a>
+                                <div class="content">
+                                    <a class="author">Jenny Hess</a>
+                                    <div class="metadata">
+                                        <span class="date">Just now</span>
+                                    </div>
+                                    <div class="text">
+                                        Elliot you are always so right :)
+                                    </div>
+                                    <div class="actions">
+                                        <a class="reply">回复</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <a class="avatar">
+                            <img src="../static/images/1005-800x450.jpg" th:src="@{/images/1005-800x450.jpg}">
+                        </a>
+                        <div class="content">
+                            <a class="author">Joe Henderson</a>
+                            <div class="metadata">
+                                <span class="date">5 days ago</span>
+                            </div>
+                            <div class="text">
+                                Dude, this is awesome. Thanks so much
+                            </div>
+                            <div class="actions">
+                                <a class="reply">回复</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+
+            <div class="ui form">
+                <div class="fields m-padding-tiny">
+                    <textarea name="content" placeholder="请输入评论信息..."></textarea>
+                </div>
+                <div class="fields">
+                    <div class="field m-mobile-wide m-margin-bottom-small">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" placeholder="姓名" name="nickname">
+                        </div>
+                    </div>
+                    <div class="field m-mobile-wide m-margin-bottom-small">
+                        <div class="ui left icon input">
+                            <i class="ui mail icon"></i>
+                            <input type="text" placeholder="邮箱" name="mail">
+                        </div>
+                    </div>
+                    <div class="field m-mobile-wide m-margin-bottom-small">
+                        <button class="ui m-mobile-wide teal button"><i class="edit icon"></i>发布</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<div id="toolbar" class="m-padded m-fixed m-right-bottom">
+    <div class="ui vertical icon buttons">
+        <button type="button" class="ui toc button teal button">目录</button>
+        <a href="#comment-container" type="button" class="ui teal button">留言</a>
+        <button class="ui weChat button"><i class="wechat icon"></i></button>
+        <div id="toTop-button" class="ui icon button"><i class="chevron up icon"></i></div>
+
+    </div>
+</div>
+<div class="ui toc-container flowing popup top left transition hidden" style="width: 250px !important;">   <!--payQ为起名字-->
+    <ol class="js-toc">   <!--目录生成在这个里面-->
+
+    </ol>
+
+</div>
+
+<div id="qrcode" class="ui wechat-qr flowing popup transition hidden" style="width: 130px">
+    <!--<img src="./static/images/wxhy.jpg" alt="" class="ui rounded image" style="width: 120px">-->
+</div>
+
+
+
+
+
+
+<!--底部footer-->
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padding-tb-massive">    <!-- vertical 垂直-->
+    <div class="ui center aligned container">      <!--center aligned 表示container里面的东西全部居中-->
+        <div class="ui inverted divided stackable grid">    <!--grid默认16列-->
+            <div class="three wide column" align="center">     <!-- wide 填满   column 列-->
+                <img src="../static/images/wxhy.jpg" class="ui rounded image" style="width:110px">
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced">最新博客</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">用户故事(user store)</a>
+                    <a href="#" class="item">用户故事(user store)</a>
+                    <a href="#" class="item">用户故事(user store)</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header header m-text-thin m-text-spaced">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">Email:15234023889@163.com</a>
+                    <a href="#" class="item">QQ:1120620371</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui inverted header header m-text-thin m-text-spaced">Blog</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">这是我的个人博客，欢迎前来观看，仅提供学习只用，同各类同道中人一起交流发展</a>
+                </div>
+            </div>
+        </div>
+        <div class="ui inverted divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">copyriht : © 2020 Designed by CRIS</p>
+    </div>
+
+</footer>
+<div th:replace="_fragments :: script">
+    <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>    <!--平滑滚动插件-->
+    <script src="../static/lib/tocbot/tocbot.min.js"></script>
+    <script src="../static/lib/prism/prism.js"></script>
+    <script src="../static/lib/qrcode/qrcode.min.js"></script>
+</div>
+<script>
+
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');   /*点击有这个效果就删除，没有这个效果就增加*/
+    });
+
+    $('#payButton').popup({
+        popup:$('.payQR.popup'),       /*为了对应代码86行的payQR popup*/
+        on:'click',               /*获取button然后用popup组件进行点击对payQR展示*/
+        position:'bottom center'
+    });
+
+    /*点击目录生成对应目录的点击事件*/
+    $('.toc.button').popup({
+        popup:$('.toc-container.popup'),
+        on:'click',
+        position:'left center'
+    });
+
+    /*初始化tocbot插件*/
+    tocbot.init({
+        tocSelector:'.js-toc',
+        contentSelector:'.js-toc-content',    /*生成目录的源头*/
+        headingSelector:'h1,h2,h3',   /*生成几级目录*/
+    })
+
+    $('.weChat').popup({      /*微信QR code事件*/
+        popup:$('.wechat-qr.popup'),
+        position:'left center'
+    });
+
+    var qrcode=new QRCode("qrcode",{    /*放置二维码的div的id*/
+        text:"http://jindo.dev.naver.com/collie",
+        width:110,
+        height:110,
+        colorDark:"#000000",
+        colorLight: "#ffffff",
+        correctLevel:QRCode.CorrectLevel.H
+    });
+
+    $('#toTop-button').click(function () {     /*平滑滚动插件*/
+        $(window).scrollTo(0,500)    /*0代表最顶端   500代表事件，毫秒*/
+    })
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
