@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
     <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
     <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
+    <link rel="stylesheet" th:href="@{/lib/editormd/css/editormd.css}">
+   <!-- <link rel="stylesheet" th:href="">-->
 </head>
 <body>
 
@@ -65,7 +67,10 @@
                 <div class="ui orange basic  label" th:text="${blog.flag}">原创</div>
             </div>
             <h2 class="ui center aligned header" th:text="${blog.title}">关于Typo css</h2>
-            <div id="content"  class="typo typo-selection js-toc-content m-padding-lr-responsive m-padding-tb-large" th:text=${blog.content}>     <!--js-toc-content 生成目录-->
+            <!--<div id="content"  class="typo typo-selection js-toc-content m-padding-lr-responsive m-padding-tb-large" th:text=${blog.content}>     &lt;!&ndash;js-toc-content 生成目录&ndash;&gt;
+            </div>-->
+            <div id="test-editormd">
+                <textarea id="message" name="message"  class="typo typo-selection js-toc-content m-padding-lr-responsive m-padding-tb-large" th:text=${blog.content}></textarea>
             </div>
 
             <!--标签-->
@@ -85,7 +90,7 @@
                             <div>支付宝支付</div>
                         </div>
                         <div class="image">
-                            <img src="../static/images/wx.jpg" th:src="@{/images/wx.jpg}" alt="" class="ui rounded bordered image" style="width: 120px">
+                            <img src="../static/images/wx.jpg" th:src="@{/images/wxhy.jpg}" alt="" class="ui rounded bordered image" style="width: 120px">
                             <div>微信支付</div>
                         </div>
                     </div>
@@ -235,7 +240,7 @@
 </div>
 
 <div id="qrcode" class="ui wechat-qr flowing popup transition hidden" style="width: 130px">
-    <!--<img src="./static/images/wxhy.jpg" alt="" class="ui rounded image" style="width: 120px">-->
+    <img src="./static/images/wxhy.jpg" th:src="@{/images/wxhy.jpg}" alt="" class="ui rounded image" style="width: 120px">
 </div>
 
 
@@ -284,8 +289,28 @@
     <script src="../static/lib/tocbot/tocbot.min.js"></script>
     <script src="../static/lib/prism/prism.js"></script>
     <script src="../static/lib/qrcode/qrcode.min.js"></script>
+    <script src="../static/lib/editormd/lib/marked.min.js"></script>
+    <script src="../static/lib/editormd/lib/prettify.min.js"></script>
+    <script src="../static/lib/editormd/lib/raphael.min.js"></script>
+    <script src="../static/lib/editormd/lib/underscore.min.js"></script>
+    <script src="../static/lib/editormd/lib/sequence-diagram.min.js"></script>
+    <script src="../static/lib/editormd/lib/flowchart.min.js"></script>
+    <script src="../static/lib/editormd/lib/jquery.flowchart.min.js"></script>
+    <script src="../static/lib/editormd/editormd.js"></script>
 </div>
 <script>
+    /*markdown展示*/
+    var testEditor;
+    $(function(){
+        testEditor  = editormd.markdownToHTML("test-editormd",{
+            width : "90%",
+            height : "700",
+            path: "/lib/editormd/lib/",
+            preview :true,
+            watch : true,
+            editor :false,
+        });
+    });
 
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hide');   /*点击有这个效果就删除，没有这个效果就增加*/

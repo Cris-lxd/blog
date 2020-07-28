@@ -6,7 +6,7 @@
     <title th:replace="${title}">fragments</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
-    <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css" th:href="@{/lib/editormd/css/editormd.min.css}">
+    <link rel="stylesheet" href="../../static/lib/editormd-backup/css/editormd.min.css" th:href="@{/lib/editormd/css/editormd.min.css}">
 
 </head>
 <body>
@@ -26,7 +26,7 @@
                     </div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
+                        <a href="/admin/toAdmin" th:href="@{/admin/logout}" class="item">注销</a>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,15 @@
 <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
-<script src="../../static/lib/editormd/editormd.min.js"  th:src="@{/lib/editormd/editormd.min.js}"></script>
+<script src="../../static/lib/editormd-backup/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
+<script src="../static/lib/editormd/lib/marked.min.js" th:src="@{/lib/editormd/lib/marked.min.js}"></script>
+<script src="../static/lib/editormd/lib/prettify.min.js" th:src="@{/lib/editormd/lib/prettify.min.js}"></script>
+<script src="../static/lib/editormd/lib/raphael.min.js" th:src="@{/lib/editormd/lib/raphael.min.js}"></script>
+<script src="../static/lib/editormd/lib/underscore.min.js" th:src="@{/lib/editormd/lib/underscore.min.js}"></script>
+<script src="../static/lib/editormd/lib/sequence-diagram.min.js" th:src="@{/lib/editormd/lib/sequence-diagram.min.js}"></script>
+<script src="../static/lib/editormd/lib/flowchart.min.js" th:src="@{/lib/editormd/lib/flowchart.min.js}"></script>
+<script src="../static/lib/editormd/lib/jquery.flowchart.min.js" th:src="@{/lib/editormd/lib/jquery.flowchart.min.js}"></script>
+<script src="../static/lib/editormd/editormd.js" th:src="@{/lib/editormd/editormd.js}"></script>
 
 </div>
 </body>

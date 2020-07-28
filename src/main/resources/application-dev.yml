@@ -1,4 +1,7 @@
 #开发环境
+#默认端口
+#server:
+  #port: 80
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -18,3 +21,5 @@ logging:
     com.lxd: debug
   file:           #日志输出
     path: log/blog-dev.log
+
+
