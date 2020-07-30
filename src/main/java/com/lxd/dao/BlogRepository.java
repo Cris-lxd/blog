@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface BlogRepository extends JpaRepository<Blog,Long>, JpaSpecificationExecutor<Blog> {    //后面这个提供动态组合查询
 
-    @Query("select b from t_blog b where b.recommend =true")
+    @Query(value="select b from t_blog b")
     List<Blog> findTop(Pageable pageable);
 
     //select  b from t_blog b where b.title like '%内容%'
