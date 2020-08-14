@@ -103,7 +103,7 @@
             <div class="ui middle aligned grid">
                 <div class="eleven wide column">
                     <ul class="list">
-                        <li>作者：<span th:text="${blog.user.username}">刘旭东</span><a href="#" target="_blank" th:href="@{/about}">(联系作者)</a></li>
+                        <li>作者：<span th:text="${blog.user.username}">刘旭东</span><a href="/to/toAbout" target="_blank" th:href="@{/about}">(联系作者)</a></li>
                         <li>发表时间：<span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2020-03-09</span></li>
                         <li>授权声明：</li>
                         <li>公众号转载：请在文末添加作者公众号二维码</li>

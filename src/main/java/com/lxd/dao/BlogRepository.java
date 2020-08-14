@@ -21,4 +21,6 @@ public interface BlogRepository extends JpaRepository<Blog,Long>, JpaSpecificati
     @Query("select b from t_blog b where b.title like ?1 or b.content like ?1")
     Page<Blog> findByQuerys(String querys,Pageable pageable);
 
+    @Query("select b from t_blog b where b.type.id = ?1")
+    List<Blog> getBlogByType(Long id);
 }

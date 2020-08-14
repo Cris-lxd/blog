@@ -80,6 +80,11 @@ public class TypeServiceImpl  implements TypeService{
         typeRepository.deleteById(id);
     }
 
+    @Override
+    public int countType() {
+        return typeRepository.countType();
+    }
+
 
     @Override
     public Type getTypeByName(String name) {

@@ -43,55 +43,23 @@
                     <h3 class="ui teal header">分类</h3>   <!--teal 茶色-->
                 </div>
                 <div class="right aligned column">
-                    共 <h3 class="ui orange header m-inline-block">14</h3>个    <!--h元素为block元素，会换行   所以使用inline变为非块原素-->
+                    共 <h3 class="ui orange header m-inline-block" th:text="${countType}"></h3>个    <!--h元素为block元素，会换行   所以使用inline变为非块原素-->
                 </div>
             </div>
         </div>
         <div class="ui attached segment m-padding-tb-large">
-            <div class="ui labeled button m-margin-tb-tiny">
-                <a href="#" class="ui basic teal button">思考与感情</a>
-                <div class="ui basic teal left pointing label">24</div>
-            </div>
-            <div class="ui labeled button m-margin-tb-tiny">
-                <a href="#" class="ui basic button">开发者手册</a>
-                <div class="ui basic left pointing label">24</div>
-            </div>
-            <div class="ui labeled button m-margin-tb-tiny">
-                <a href="#" class="ui basic button">清单</a>
-                <div class="ui basic left pointing label">24</div>
-            </div>
-            <div class="ui labeled button m-margin-tb-tiny">
-                <a href="#" class="ui basic button">进阶技术</a>
-                <div class="ui basic left pointing label">24</div>
-            </div>
-            <div class="ui labeled button m-margin-tb-tiny">
-                <a href="#" class="ui basic button">Java开发</a>
-                <div class="ui basic left pointing label">24</div>
-            </div>
-            <div class="ui labeled button m-margin-tb-tiny">
-                <a href="#" class="ui basic button">生命的由来</a>
-                <div class="ui basic left pointing label">24</div>
-            </div>
-            <div class="ui labeled button m-margin-tb-tiny">
-                <a href="#" class="ui basic button">万物复苏</a>
-                <div class="ui basic left pointing label">24</div>
-            </div>
-            <div class="ui labeled button m-margin-tb-tiny">
-                <a href="#" class="ui basic button">从马云商业帝国得到的启发</a>
-                <div class="ui basic left pointing label">24</div>
-            </div>
-            <div class="ui labeled button m-margin-tb-tiny">
-                <a href="#" class="ui basic button">讨论</a>
-                <div class="ui basic left pointing label">24</div>
+            <div class="ui labeled button m-margin-tb-tiny" th:each="type : ${types}">
+                <a href="#" class="ui basic teal button" th:text="${type.name}" th:href="@{/to/getBlogByType/{id}(id=${type.id})}">学习日志</a>
+                <div class="ui basic teal left pointing label" th:text="${#arrays.length(type.blogs)}">24</div>
             </div>
         </div>
 
         <div class="ui top attached segment teal">
-            <div class="ui padded vertical segment m-padding-tb-large m-mobile-lr-clear">
+            <div class="ui padded vertical segment m-padding-tb-large m-mobile-lr-clear" th:each="blogByType : ${blogByType}">
                 <div class="ui mobile reversed stackable grid">
                     <div class="ui eleven wide column">
-                        <h3 class="ui header">你真的理解什么是Java开发吗</h3>
-                        <p class="m-text">Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。</p>
+                        <h3><a class="ui header" th:text="${blogByType.title}" th:href="@{/blog/{id}(id=${blogByType.id})}"></a></h3>
+                        <p class="m-text" th:text="${blogByType.description}">Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。</p>
                         <div class="ui stackable grid">
                             <div class="eleven wide column">
                                 <div class="ui mini horizontal link list">    <!--horizontal表示横着的列表-->
@@ -100,7 +68,7 @@
                                         <div class="content"><a href="#" class="header">刘旭东</a></div><!--avatar变为圆形-->
                                     </div>
                                     <div class="item">
-                                        <i class="calendar icon"></i>2020-03-06
+                                        <i class="calendar icon"></i><p th:text="${blogByType.createTime}"> 2020-03-06</p>
                                     </div>
                                     <div class="item">
                                         <i class="eye icon"></i>2342
@@ -108,145 +76,18 @@
                                 </div>
                             </div>
                             <div class="right aligned five wide column">
-                                <a href="#" target="_blank" class="ui teal label m-padding-tiny m-text-thin">认证升级</a>
+                                <a href="#" target="_blank" class="ui teal label m-padding-tiny m-text-thin" th:text="${blogByType.type.name}">认证升级</a>
                             </div>
                         </div>
                     </div>
                     <div class="ui five wide column">
                         <a href="#" target="_blank">     <!--—_blank表示点击新打开页面-->
-                            <img src="../static/images/1005-800x450.jpg" alt="" class="ui rounded image">
+                            <img src="../static/images/1005-800x450.jpg" th:src="@{${blogByType.firstPictures}}" alt="" class="ui rounded image">
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="ui padded vertical segment m-padding-tb-large m-mobile-lr-clear">
-                <div class="ui mobile reversed stackable grid">
-                    <div class="ui eleven wide column">
-                        <h3 class="ui header">你真的理解什么是Java开发吗</h3>
-                        <p class="m-text">Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。</p>
-                        <div class="ui stackable grid">
-                            <div class="eleven wide column">
-                                <div class="ui mini horizontal link list">    <!--horizontal表示横着的-->
-                                    <div class="item">
-                                        <img src="https://picsum.photos/seed/picsum/100/100" alt="" class="ui avatar image">
-                                        <div class="content"><a href="#" class="header">刘旭东</a></div><!--avatar变为圆形-->
-                                    </div>
-                                    <div class="item">
-                                        <i class="calendar icon"></i>2020-03-06
-                                    </div>
-                                    <div class="item">
-                                        <i class="eye icon"></i>2342
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="right aligned five wide column">
-                                <a href="#" target="_blank" class="ui teal label m-padding-tiny m-text-thin">认证升级</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui five wide column">
-                        <a href="#" target="_blank">     <!--—_blank表示点击新打开页面-->
-                            <img src="../static/images/1005-800x450.jpg" alt="" class="ui rounded image">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="ui padded vertical segment m-padding-tb-large m-mobile-lr-clear">
-                <div class="ui mobile reversed stackable grid">
-                    <div class="ui eleven wide column">
-                        <h3 class="ui header">你真的理解什么是Java开发吗</h3>
-                        <p class="m-text">Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。</p>
-                        <div class="ui stackable grid">
-                            <div class="eleven wide column">
-                                <div class="ui mini horizontal link list">    <!--horizontal表示横着的-->
-                                    <div class="item">
-                                        <img src="https://picsum.photos/seed/picsum/100/100" alt="" class="ui avatar image">
-                                        <div class="content"><a href="#" class="header">刘旭东</a></div><!--avatar变为圆形-->
-                                    </div>
-                                    <div class="item">
-                                        <i class="calendar icon"></i>2020-03-06
-                                    </div>
-                                    <div class="item">
-                                        <i class="eye icon"></i>2342
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="right aligned five wide column">
-                                <a href="#" target="_blank" class="ui teal label m-padding-tiny m-text-thin">认证升级</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui five wide column">
-                        <a href="#" target="_blank">     <!--—_blank表示点击新打开页面-->
-                            <img src="../static/images/1005-800x450.jpg" alt="" class="ui rounded image">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="ui padded vertical segment m-padding-tb-large m-mobile-lr-clear">
-                <div class="ui mobile reversed stackable grid">
-                    <div class="ui eleven wide column">
-                        <h3 class="ui header">你真的理解什么是Java开发吗</h3>
-                        <p class="m-text">Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。</p>
-                        <div class="ui stackable grid">
-                            <div class="eleven wide column">
-                                <div class="ui mini horizontal link list">    <!--horizontal表示横着的-->
-                                    <div class="item">
-                                        <img src="https://picsum.photos/seed/picsum/100/100" alt="" class="ui avatar image">
-                                        <div class="content"><a href="#" class="header">刘旭东</a></div><!--avatar变为圆形-->
-                                    </div>
-                                    <div class="item">
-                                        <i class="calendar icon"></i>2020-03-06
-                                    </div>
-                                    <div class="item">
-                                        <i class="eye icon"></i>2342
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="right aligned five wide column">
-                                <a href="#" target="_blank" class="ui teal label m-padding-tiny m-text-thin">认证升级</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui five wide column">
-                        <a href="#" target="_blank">     <!--—_blank表示点击新打开页面-->
-                            <img src="../static/images/1005-800x450.jpg" alt="" class="ui rounded image">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="ui padded vertical segment m-padding-tb-large m-mobile-lr-clear">
-                <div class="ui mobile reversed stackable grid">
-                    <div class="ui eleven wide column">
-                        <h3 class="ui header">你真的理解什么是Java开发吗</h3>
-                        <p class="m-text">Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。</p>
-                        <div class="ui stackable grid">
-                            <div class="eleven wide column">
-                                <div class="ui mini horizontal link list">    <!--horizontal表示横着的-->
-                                    <div class="item">
-                                        <img src="https://picsum.photos/seed/picsum/100/100" alt="" class="ui avatar image">
-                                        <div class="content"><a href="#" class="header">刘旭东</a></div><!--avatar变为圆形-->
-                                    </div>
-                                    <div class="item">
-                                        <i class="calendar icon"></i>2020-03-06
-                                    </div>
-                                    <div class="item">
-                                        <i class="eye icon"></i>2342
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="right aligned five wide column">
-                                <a href="#" target="_blank" class="ui teal label m-padding-tiny m-text-thin">认证升级</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui five wide column">
-                        <a href="#" target="_blank">     <!--—_blank表示点击新打开页面-->
-                            <img src="../static/images/1005-800x450.jpg" alt="" class="ui rounded image">
-                        </a>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <div class="ui bottom attached segment">
             <div class="ui middle aligned two column grid">

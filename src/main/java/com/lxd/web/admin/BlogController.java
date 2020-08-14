@@ -93,6 +93,8 @@ public class BlogController {
         blog.setType(typeService.getType(blog.getType().getId()));    //对应blogs的type.id,获取到对应的type值
         blog.setTags(tagService.listTag(blog.getTagIds()));       //对应标签
         Blog b;
+        //如果勾选了不需要首图，则将首图设置为null
+
         if(blog.getId() ==null){
             b=blogService.saveBlog(blog);
         }else{

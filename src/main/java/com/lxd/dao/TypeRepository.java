@@ -17,6 +17,9 @@ public interface TypeRepository  extends JpaRepository<Type,Long> {
     @Query("select t from t_type t")
     List<Type> findTop(Pageable pageable);
 
+    @Query("select count(id) from t_type ")
+    int countType();
+
 
 
 }

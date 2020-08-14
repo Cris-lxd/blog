@@ -28,5 +28,11 @@ public interface BlogService {
 
     void deleteBlog(Long id);
 
+    //前台
+    /**
+     * 根据typeid查询blog列表
+     */
+    List<Blog> getBlogByType(Long id);
+
 
 }

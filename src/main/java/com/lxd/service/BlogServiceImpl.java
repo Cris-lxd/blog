@@ -152,5 +152,10 @@ public class BlogServiceImpl implements BlogService {
         blogRepository.deleteById(id);
     }
 
+    @Override
+    public List<Blog> getBlogByType(Long id) {
+        return blogRepository.getBlogByType(id);
+    }
+
 
 }
