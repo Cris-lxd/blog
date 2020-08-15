@@ -2,7 +2,9 @@ package com.lxd.service;
 
 import com.lxd.NotFoundException;
 import com.lxd.dao.BlogRepository;
+import com.lxd.dao.TagRepository;
 import com.lxd.po.Blog;
+import com.lxd.po.Tag;
 import com.lxd.po.Type;
 import com.lxd.util.MyBeanUtils;
 import com.lxd.vo.BlogQuery;
@@ -15,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import sun.security.krb5.internal.ccache.Tag;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -25,6 +26,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Cris on 2020/3/28
@@ -34,6 +36,8 @@ public class BlogServiceImpl implements BlogService {
 
     @Autowired
     private BlogRepository blogRepository;
+    @Autowired
+    private TagRepository tagRepository;
 
     /*
     * 查询
@@ -100,11 +104,19 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<Blog> listRecommendBlogTop(Integer size) {
+    public List<Blog> listRecommendBlogTop1(Integer size) {
         Sort sort = Sort.by(Sort.Order.desc("updateTime"));
         Pageable pageable = PageRequest.of(0, size, sort);
 
         return blogRepository.findTop(pageable);
+    }
+
+    @Override
+    public List<Blog> listRecommendBlogTop(Integer size) {
+        Sort sort = Sort.by(Sort.Order.desc("createTime"));
+        Pageable pageable = PageRequest.of(0, size, sort);
+
+        return blogRepository.findTop1(pageable);
     }
 
     /*
@@ -155,6 +167,21 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<Blog> getBlogByType(Long id) {
         return blogRepository.getBlogByType(id);
+    }
+
+    @Override
+    public List<Blog> getBlogByTag(Long id) {
+        /*List<Blog> all = blogRepository.findAll();
+        List<Blog> blogWithTag = null;
+        for (int i = 0; i < all.size(); i++) {
+            if(all.get(i).getTagIds().equals(id)){
+                blogWithTag.add(all.get(i));
+            }
+        }*/
+        Tag tag = tagRepository.getOne(id);
+        List<Blog> blogs = tag.getBlogs();
+
+        return blogs;
     }
 
 

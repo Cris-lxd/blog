@@ -98,4 +98,9 @@ public class TagServiceImpl implements TagService {
     public void deleteTag(Long id) {
         tagRepository.deleteById(id);    //不需要返回
     }
+
+    @Override
+    public int countTag() {
+        return tagRepository.countTag();
+    }
 }

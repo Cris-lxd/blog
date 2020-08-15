@@ -53,6 +53,7 @@ public class BlogController {
 
         model.addAttribute("types", typeService.listType());
         model.addAttribute("page",blogService.listBlog(pageable, blog));    //查询page对象放到model模型里面
+        model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));
         return LIST;
     }
     /*
@@ -63,6 +64,7 @@ public class BlogController {
                          BlogQuery blog, Model model){
 
         model.addAttribute("page",blogService.listBlog(pageable, blog));    //查询page对象放到model模型里面
+        model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));
         return "admin/blogs :: blogList";    //blogs页面下面的列表部分  ,对应blogs.html  83行
     }
 
@@ -74,6 +76,7 @@ public class BlogController {
         model.addAttribute("types", typeService.listType());
         model.addAttribute("tags", tagService.listTag());
         model.addAttribute("blog", new Blog());
+        model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));
         return INPUT;
     }
     @GetMapping("/blogs/{id}/input")     //拿到默认值放入内容，对应blogs的新增按钮，渠道这个model一一赋值
@@ -84,18 +87,21 @@ public class BlogController {
         Blog blog=blogService.getBlog(id);
         blog.init();
         model.addAttribute("blog", blog);
+        model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));
         return INPUT;
     }
 
     @PostMapping("/blogs")
-    public String post(Blog blog, Tag tag, HttpSession session, RedirectAttributes attributes){
+    public String post(Blog blog, Tag tag, HttpSession session, RedirectAttributes attributes,Model model){
         blog.setUser((User) session.getAttribute("user"));
         blog.setType(typeService.getType(blog.getType().getId()));    //对应blogs的type.id,获取到对应的type值
         blog.setTags(tagService.listTag(blog.getTagIds()));       //对应标签
         Blog b;
-        //如果勾选了不需要首图，则将首图设置为null
 
         if(blog.getId() ==null){
+            if(blog.getFlag() == null || blog.getFlag().equals("")){
+                blog.setFlag("原创");
+            }
             b=blogService.saveBlog(blog);
         }else{
             b=blogService.updateBlog(blog.getId(), blog);
@@ -106,6 +112,7 @@ public class BlogController {
         }else{
             attributes.addFlashAttribute("message", "操作成功");
         }
+        model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));
         return REDIRECT_LIST;
     }
 

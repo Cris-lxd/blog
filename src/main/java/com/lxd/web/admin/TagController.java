@@ -2,6 +2,7 @@ package com.lxd.web.admin;
 
 import com.lxd.po.Tag;
 import com.lxd.po.Type;
+import com.lxd.service.BlogService;
 import com.lxd.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,8 @@ public class TagController {
 
     @Autowired
     private TagService tagService;
+    @Autowired
+    private BlogService blogService;
 
     /*
     *   查询列表方法  倒序输出
@@ -36,6 +39,7 @@ public class TagController {
     public String tags(@PageableDefault(size = 10,sort = {"id"},direction = Sort.Direction.DESC)
                                Pageable pageable, Model model){
         model.addAttribute("page", tagService.listTag(pageable));
+        model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));
         return "admin/tags";
     }
 
@@ -46,10 +50,11 @@ public class TagController {
     @GetMapping("/tags/input")     //前端页面调用这个方法的写法   th:href="@{/admin/types/input}"
     public String input(Model model){
         model.addAttribute("tag",new Tag());  //前端types-input需要拿到type值   th:object="${type}"
+        model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));
         return "admin/tags-input";
     }
     @PostMapping("/tags")
-    public String postpost(@Valid Tag tag, BindingResult result, RedirectAttributes attributes){
+    public String postpost(@Valid Tag tag, BindingResult result, RedirectAttributes attributes,Model model){
         Tag tag1=tagService.getTagByName(tag.getName());    //如果有名字就能获取到
         if(tag1 != null){
             result.rejectValue("name", "nameError", "不能重复添加");
@@ -64,6 +69,7 @@ public class TagController {
             attributes.addFlashAttribute("message","新增成功");
 
         }
+        model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));
         return "redirect:/admin/tags";
     }
 
@@ -74,11 +80,12 @@ public class TagController {
     @GetMapping("/tags/{id}/input")          //为了将原有的内容提取到inp框中
     public String editInput(@PathVariable Long id, Model model){
         model.addAttribute("tag",tagService.getTag(id));
+        model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));
         return "admin/tags-input";
     }
 
     @PostMapping("/tags{id}")
-    public String editTags(@Valid Tag tag, BindingResult result, @PathVariable Long id, RedirectAttributes attributes){
+    public String editTags(@Valid Tag tag, BindingResult result, @PathVariable Long id, RedirectAttributes attributes,Model model){
         Tag tag1=tagService.getTagByName(tag.getName());
         if(tag1 != null){
             result.rejectValue("name", "nameError","不能重复添加");
@@ -93,6 +100,7 @@ public class TagController {
             attributes.addFlashAttribute("message", "更新成功");
 
         }
+        model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));
         return "redirect:/admin/tags";
 
     }

@@ -20,7 +20,9 @@ public interface BlogService {
 
     Page<Blog> listBlog(String querys,Pageable pageable);
 
-    List<Blog> listRecommendBlogTop(Integer size);    //推荐的博客列表
+    List<Blog> listRecommendBlogTop1(Integer size);    //推荐的博客列表
+
+    List<Blog> listRecommendBlogTop(Integer size);    //最新的博客列表
 
     Blog saveBlog(Blog blog);   //新增一个blog，传递过来一个blog对象
 
@@ -33,6 +35,7 @@ public interface BlogService {
      * 根据typeid查询blog列表
      */
     List<Blog> getBlogByType(Long id);
+    List<Blog> getBlogByTag(Long id);
 
 
 }

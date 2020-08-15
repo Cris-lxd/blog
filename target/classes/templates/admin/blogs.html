@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客管理</title>    <!--后端博客管理-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/static/css/me.css}">
+</head>
+<body>
+
+<!--    导航-->
+<nav class="ui inverted attached segment m-padding-tb-min m-shadow-small">    <!--inverted反转-->
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header m-lxd-blog">管理后台</h2>
+            <a href="#" class="active m-item item m-mobile-hide" th:href="@{/admin/blogs}"><i class="home icon"></i>博客</a>
+            <a href="#" class="m-item item m-mobile-hide" th:href="@{/admin/types}"><i class="idea icon"></i></icon>分类</a>
+            <a href="#" class="m-item item m-mobile-hide" th:href="@{/admin/tags}"><i class="tags icon"></i>标签</a>
+             <!--right item表示靠右-->
+            <div class="right m-item m-mobile-hide menu">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img class="ui avatar image" src="https://picsum.photos/seed/picsum/100/100" >
+                        Cris
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="/admin/toAdmin" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-top-right m-mobile-show">       <!--menu toggle   没有显示意义，jquery获取元素-->
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" th:href="@{/admin/blogs/input}" class="item">发布</a>
+            <a href="#" th:href="@{/admin/blogs}" class="teal active item">列表</a>
+        </div>
+    </div>
+</div>
+
+<!--中间内容-->
+<div class="m-container-small m-padding-tb-large">
+    <div class="ui  container">     <!--展示最好的效果-->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">恭喜！操作成功</p>
+        </div>
+        <!--header-->
+        <div class="ui secondary segment form">
+            <input type="hidden" name="page">
+            <div class="inline fields">
+                <div class="field">
+                    <input type="text" name="title" placeholder="标题">
+                </div>
+                <div class="field">
+                    <div class="ui selection dropdown types">
+                        <input type="hidden" name="typeId">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">分类</div>
+                        <div class="menu">
+                            <div th:each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
+                            <!--<div class="item" data-value="2">开发者手册</div>
+                            <div class="item" data-value="1">思考与分析</div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui checkbox">   <!--checkbox的样式-->
+                        <input type="checkbox"  id="recommend" name="recommend">     <!--真正定义的checkbox-->
+                        <label for="recommend">推荐</label>       <!--此标签与前面的checkbox相关联-->
+                    </div>
+                </div>
+                <div class="field">
+                    <button type="button" id="search-btn" class="ui mini teal basic button"><i class="search icon"></i>搜索</button>
+                </div>
+            </div>
+        </form>
+        <div id="table-container">   <!--用于单独渲染部分页面，配合js-->
+            <!--表格-->
+            <table th:fragment="blogList" class="ui table compact teal">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>标题</th>
+                    <th>类型</th>
+                    <th>推荐</th>
+                    <th>是否发布</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="blog,iterStat : ${page.content}" >
+                    <td th:text="${iterStat.count}">1</td>    <!--总条数-->
+                    <td th:text="${blog.title}">刻意练习</td>
+                    <td th:text="${blog.type.name}">认知升级</td>
+                    <td th:text="${blog.recommend} ? '是':'否'">是</td>
+                    <td th:text="${blog.published} ? '发布':'草稿'">草稿</td>
+                    <td th:text="${blog.updateTime}">2020-03-09 20：19</td>
+                    <td>
+                        <a href="#" th:href="@{/admin/blogs/{id}/input(id=${blog.id})}" class="ui mini teal basic button">编辑</a>
+                        <a href="#" th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}" class="ui mini red basic button">删除</a>
+                    </td>
+                </tr>
+
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="7">
+                        <div class="ui pagination menu mini left floated " th:if="${page.totalPages}>1">
+                            <!--th:attr  自定义属性域-->
+                            <a onclick="page(this)" th:attr="data-page=${page.number}-1" class="item" th:unless="${page.first}">上一页</a>
+                            <a onclick="page(this)" th:attr="data-page=${page.number}+1" class="item" th:unless="${page.last}">下一页</a>
+                        </div>
+                        <a href="" th:href="@{/admin/blogs/input}"  class="ui right floated mini teal basic button">新增</a>    <!--映射地址对应controller的getmapping映射-->
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+
+        </div>
+
+        </div>
+
+    </div>
+</div>
+    <br>
+    <br>
+
+
+
+
+
+
+
+<!--底部footer-->
+<footer  th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padding-tb-massive">    <!-- vertical 垂直-->
+    <div class="ui center aligned container">      <!--center aligned 表示container里面的东西全部居中-->
+        <div class="ui inverted divided stackable grid">    <!--grid默认16列-->
+            <div class="three wide column" align="center">     <!-- wide 填满   column 列-->
+                <img src="../../static/images/wxhy.jpg" th:src="@{/static/images/wxhy.jpg}" class="ui rounded image" style="width:110px">
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced">最新博客</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">用户故事(user store)</a>
+                    <a href="#" class="item">用户故事(user store)</a>
+                    <a href="#" class="item">用户故事(user store)</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header header m-text-thin m-text-spaced">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">Email:15234023889@163.com</a>
+                    <a href="#" class="item">QQ:1120620371</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui inverted header header m-text-thin m-text-spaced">Blog</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">这是我的个人博客，欢迎前来观看，仅提供学习只用，同各类同道中人一起交流发展</a>
+                </div>
+            </div>
+        </div>
+        <div class="ui inverted divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">copyriht : © 2020 Designed by CRIS</p>
+    </div>
+
+</footer>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');   /*点击有这个效果就删除，没有这个效果就增加*/
+    });
+
+    $('.ui.dropdown').dropdown({
+        on:'hover'
+    });
+
+    function page(obj) {
+        $("[name='page']").val($(obj).data("page"));     //找到这个隐藏域并给他赋值
+        loaddata();  赋值以后调用这个局部刷新方法
+    }
+
+    $("#search-btn").click(function () {
+        loaddata();   /*发送请求*/
+    })
+
+    function loaddata(){
+        $("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search",{     /*请求这个地址，传输form表单里面的这些值*/
+            title : $("[name='title']").val(),      /*获取title里面的值*/
+            typeId : $("[name='typeId']").val(),
+            recommend : $("[name='recommend']").prop('checked'),
+            page : $("[name='page']").val()
+
+        });
+    }
+
+    $('.message .close')     /*关闭提示框*/
+        .on('click',function(){
+            $(this)
+                .closest('.message')
+                .transition('fade');
+        });
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

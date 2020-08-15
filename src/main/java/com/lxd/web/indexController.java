@@ -12,10 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class indexController {
@@ -34,8 +31,8 @@ public class indexController {
         model.addAttribute("page", blogService.listBlog(pageable));
         model.addAttribute("types", typeService.listTypeTop(6));   //指定显示的大小   对应index的th:each="type : ${types}"
         model.addAttribute("tags", tagService.listTagTop(10));
-        model.addAttribute("recommendBlogs", blogService.listRecommendBlogTop(8));
-
+        model.addAttribute("recommendBlogs", blogService.listRecommendBlogTop1(5));  //获得推荐的，修改排序
+        model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));  //获得最新的，时间排序
         return "index";   //若无异常。则返回到index页面
     }
 
@@ -54,4 +51,5 @@ public class indexController {
         model.addAttribute("blog",blogService.getBlog(id));
         return "blog";   //若无异常。则返回到index页面
     }
+
 }

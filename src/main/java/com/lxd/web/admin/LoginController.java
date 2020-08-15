@@ -1,6 +1,7 @@
 package com.lxd.web.admin;
 
 import com.lxd.po.User;
+import com.lxd.service.BlogService;
 import com.lxd.service.UserService;
 import com.lxd.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private BlogService blogService;
 
 
     @GetMapping()            //默认使用全局  作用是第一次访问时返回到配置的页面
@@ -39,12 +42,14 @@ public class LoginController {
     public String login(@RequestParam String username,
                         @RequestParam String password,
                         HttpSession session,
+                        Model model,
                         RedirectAttributes attributes) {    //拿到session
         User user=userService.checkUser(username, password);    //调用判断
         if(user !=null){
             user.setPassword(null);
             session.setAttribute("user",user);
             //return "/admin/index";
+            model.addAttribute("recommendBlogs1", blogService.listRecommendBlogTop(3));
             return "admin/index";
         }else{
             attributes.addFlashAttribute("message", "用户名和密码错误");

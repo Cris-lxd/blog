@@ -16,4 +16,8 @@ public interface TagRepository  extends JpaRepository<Tag,Long> {
 
     @Query("select t from t_tag t")
     List<Tag> findTop(Pageable pageable);
+
+    @Query("select count(id) from t_tag ")
+    int countTag();
+
 }

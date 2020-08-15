@@ -1,0 +1,25 @@
+#开发环境
+#默认端口
+#server:
+  #port: 80
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://101.132.168.96:3306/blog?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=utf-8
+    username: root
+    password: root
+   #JPA简化了数据库所有操作
+  jpa:
+    hibernate:
+      ddl-auto: update   #待实体类确定下来后改为none停止更新
+    show-sql: true    #输出
+
+  #日志配置
+logging:
+  level:    #debug为所有都一个级别
+    root: info
+    com.lxd: debug
+  file:           #日志输出
+    path: log/blog-dev.log
+
+
