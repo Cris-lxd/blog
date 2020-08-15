@@ -57,7 +57,7 @@
             <div class="ui padded vertical segment m-padding-tb-large m-mobile-lr-clear" th:each="blogByTag : ${blogByTag}">
                 <div class="ui mobile reversed stackable grid">
                     <div class="ui eleven wide column">
-                        <h3 class="ui header" th:text="${blogByTag.title}">你真的理解什么是Java开发吗</h3>
+                        <h3><a class="ui header" th:text="${blogByTag.title}" th:href="@{/blog/{id}(id=${blogByTag.id})}">你真的理解什么是Java开发吗</a></h3>
                         <p class="m-text" th:text="${blogByTag.description}">Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。</p>
                         <div class="ui stackable grid">
                             <div class="row">
@@ -68,7 +68,7 @@
                                             <div class="content"><a href="#" class="header" th:text="${blogByTag.user.username}">刘旭东</a></div><!--avatar变为圆形-->
                                         </div>
                                         <div class="item">
-                                            <i class="calendar icon"></i><p th:text="${blogByTag.createTime}" style="display: inline">2020-03-06</p>
+                                            <i class="calendar icon"></i><p th:text="${#dates.format(blogByTag.createTime,'yyyy-MM-dd')}" style="display: inline">2020-03-06</p>
                                         </div>
                                         <!--<div class="item">
                                             <i class="eye icon"></i>23
