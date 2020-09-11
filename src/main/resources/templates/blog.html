@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
     <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
     <link rel="stylesheet" th:href="@{/lib/editormd/css/editormd.css}">
+    <link rel="shortcut icon" href="../static/images/logo.png" th:href="@{/images/logo.png}" type="image/x-icon" />
    <!-- <link rel="stylesheet" th:href="">-->
 </head>
 <body>
@@ -120,24 +121,24 @@
                 <!--用的是semantic的comment组件写留言-->
                 <div class="ui threaded comments">
                     <h3 class="ui dividing header">留言</h3>
-                    <div class="comment">
+                    <div class="comment" th:each="comment : ${comment}">
                         <a class="avatar">
                             <img src="../static/images/1005-800x450.jpg" th:src="@{/images/1005-800x450.jpg}">
                         </a>
                         <div class="content">
-                            <a class="author">Matt</a>
+                            <a class="author" th:text="${comment.email}">Matt</a>
                             <div class="metadata">
-                                <span class="date">Today at 5:42PM</span>
+                                <span class="date" th:text="${#dates.format(comment.createTime,'yyyy-MM-dd')}">Today at 5:42PM</span>
                             </div>
-                            <div class="text">
+                            <div class="text" th:text="${comment.content}">
                                 楼主好文采
                             </div>
-                            <div class="actions">
+                            <!--<div class="actions">
                                 <a class="reply">回复</a>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
-                    <div class="comment">
+                   <!-- <div class="comment">
                         <a class="avatar">
                             <img src="../static/images/1005-800x450.jpg" th:src="@{/images/1005-800x450.jpg}">
                         </a>
@@ -189,7 +190,7 @@
                                 <a class="reply">回复</a>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
                 </div>
             </div>
@@ -198,23 +199,23 @@
 
             <div class="ui form">
                 <div class="fields m-padding-tiny">
-                    <textarea name="content" placeholder="请输入评论信息..."></textarea>
+                    <textarea name="content" id="comment" placeholder="请输入评论信息..."></textarea>
                 </div>
                 <div class="fields">
                     <div class="field m-mobile-wide m-margin-bottom-small">
                         <div class="ui left icon input">
                             <i class="user icon"></i>
-                            <input type="text" placeholder="姓名" name="nickname">
+                            <input type="text" placeholder="姓名" name="nickname" id="nickname1">
                         </div>
                     </div>
                     <div class="field m-mobile-wide m-margin-bottom-small">
                         <div class="ui left icon input">
                             <i class="ui mail icon"></i>
-                            <input type="text" placeholder="邮箱" name="mail">
+                            <input type="text" placeholder="邮箱" name="mail" id="mail">
                         </div>
                     </div>
                     <div class="field m-mobile-wide m-margin-bottom-small">
-                        <button class="ui m-mobile-wide teal button"><i class="edit icon"></i>发布</button>
+                        <button class="ui m-mobile-wide teal button" id="subbmit"><i class="edit icon"></i>发布</button>
                     </div>
                 </div>
             </div>
@@ -298,7 +299,32 @@
     <script src="../static/lib/editormd/lib/jquery.flowchart.min.js"></script>
     <script src="../static/lib/editormd/editormd.js"></script>
 </div>
-<script>
+<script th:inline="javascript">
+
+    $('#subbmit').click(
+        function submit(){
+            var blogId = [[${blog.id}]];
+            var content = $('#comment').val();
+            var name = $('#nickname1').val();
+            var email = $('#mail').val();
+            $.ajax({
+                url : "/blog/comment",
+                data : {
+                    blogId : blogId,
+                    content : content,
+                    name : name,
+                    email : email
+                },
+                type : "post",
+            })
+            alert("请等待页面刷新");
+            location.reload();
+        }
+    )
+
+
+
+
     /*markdown展示*/
     var testEditor;
     $(function(){

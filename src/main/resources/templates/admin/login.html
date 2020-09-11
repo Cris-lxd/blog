@@ -6,19 +6,47 @@
     <title>博客管理登录</title>    <!--后端博客管理-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" href="../../static/css/me.css">
+    <style type="text/css">
+        /*video{
+            position: fixed;
+            right:0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -9999;
+            !*灰色调*!
+            !*-webkit-filter:grayscale(100%)*!
+
+        }*/
+    </style>
 </head>
 <body>
+<video id="v1" autoplay muted loop style="position: fixed;
+            right:0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -9999;">
+    <source  src="../../static/images/river1.mp4" th:src="@{/images/river1.mp4}">
+</video>
 <div class="m-container-small m-padding-tb-massive" style="max-width: 30em !important;">
+
     <div class="ui container">
         <div class="m-padding-tb-massive ui middle aligned center aligned grid">
             <div class="column">
+
                 <h2 class="ui teal image header">
                     <div class="content">
+
                         管理后台登录
                     </div>
                 </h2>
                 <form class="ui large form" method="post" action="#" th:action="@{/admin/login}">   <!--提交到admin下面的login方法-->
-                    <div class="ui segment">
+                    <div class="ui segment" style="background-color: #fff0;border: none">
                         <div class="field">
                             <div class="ui left icon input">
                                 <i class="user icon"></i>
@@ -37,6 +65,7 @@
                     <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}" th:text="${message}">用户名和密码错误</div>    <!--判断是否为空-->
                 </form>
             </div>
+
         </div>
     </div>
 </div>

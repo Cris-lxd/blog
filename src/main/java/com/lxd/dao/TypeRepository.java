@@ -1,5 +1,4 @@
 package com.lxd.dao;
-
 import com.lxd.po.Type;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +18,7 @@ public interface TypeRepository  extends JpaRepository<Type,Long> {
 
     @Query("select count(id) from t_type ")
     int countType();
+
 
 
 

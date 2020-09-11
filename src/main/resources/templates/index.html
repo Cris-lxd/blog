@@ -6,6 +6,7 @@
     <title>博客</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">   <!--引入模版-->
+    <link rel="shortcut icon" href="../static/images/logo.png" th:href="@{/images/logo.png}" type="image/x-icon" />
 </head>
 <body>
 
@@ -109,14 +110,14 @@
                                 <i class="idea icon"></i>分类
                             </div>
                             <div class="right aligned column">
-                                <a href="#" target="_blank">more <i class="angle double right icon"></i></a>
+                                <a href="/to/toTypes" target="_blank">more <i class="angle double right icon"></i></a>
                             </div>
                         </div>
                     </div>
 
                     <div class="ui teal segment">
                         <div class="ui fluid vertical menu">      <!--垂直菜单  th对应indexController的types-->
-                            <a href="#" class="item" th:each="type : ${types}">
+                            <a  class="item" th:each="type : ${types}">
                                 <span th:text="${type.name}">学习日志</span>
                                 <div class="ui teal basic left pointing label" th:text="${#arrays.length(type.blogs)}">13</div>
                             </a>
@@ -132,12 +133,12 @@
                                 <i class="tags icon"></i>标签
                             </div>
                             <div class="right aligned column">
-                                <a href="#" target="_blank">more <i class="angle double right icon"></i></a>
+                                <a href="/to/toTags" target="_blank">more <i class="angle double right icon"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="ui teal segment">
-                        <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny" th:each="tag : ${tags}">
+                        <a target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny" th:each="tag : ${tags}">
                             <span th:text="${tag.name}">方法论</span>
                             <div class="detail" th:text="${#arrays.length(tag.blogs)}">23</div>
                         </a>
@@ -155,9 +156,11 @@
 
                     </div>
                 <!--二维码-->
-                <h4 class="ui horizontal divider header m-margin-top-large">扫码关注CSDN</h4>               <!--分割线-->
-                <div class="ui centered card m-margin-top-large"  style="width:11em">
+                <h4 class="ui horizontal divider header m-margin-top-large">分类统计图</h4>               <!--分割线-->
+                <!--<div class="ui centered card m-margin-top-large"  style="width:11em">
                     <img src="../static/images/csdn.jpg" th:src="@{/images/csdn.png}" alt="" class="ui rounded image">
+                </div>-->
+                <div id="echarts" style="width : 300px;height: 500px;margin-left: 1.2%">
                 </div>
             </div>
 
@@ -210,11 +213,82 @@
 <!--/*/<th:block th:relpace="_fragments :: script">/*/-->
 <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<script src="../static/lib/echarts/echarts.min.js" th:src="@{/lib/echarts/echarts.min.js}"></script>
 <!--/*/</th:block>/*/-->
-<script>
+<script th:inline="javascript">
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hide');   /*点击有这个效果就删除，没有这个效果就增加*/
     })
+
+    $(function() {
+        var data=[];
+        var data1 = [];
+        $.ajax({
+            async:false,
+            url:"/echarts",
+            type:"get",
+            dataType:"json",
+            success : function(obj){
+                for (var i = 0; i < obj.length; i++) {
+                    data.push(obj[i]);
+                    data1.push(obj[i].name)
+                }
+            }
+        })
+        var myChart = echarts.init(document.getElementById('echarts'));
+        var option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 10,
+                data: data1
+            },
+            series: [
+                {
+                    name: '各类博客占比',
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: data
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+
+    })
+
+    /*function getData() {
+        var data=[];
+        $.ajax({
+            async:false,
+            url:"/echarts",
+            type:"get",
+            dataType:"json",
+            success : function(obj){
+                for (var i = 0; i < obj.length; i++) {
+                    data.push(obj[i]);
+                }
+            }
+        })
+    }*/
 </script>
 </body>
 </html>

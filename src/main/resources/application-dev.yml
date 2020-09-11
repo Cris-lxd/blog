@@ -1,11 +1,18 @@
 #开发环境
 #默认端口
-#server:
-  #port: 80
+server:
+  port: 80
+  #key-store: classpath:4479696_cris15.top.pfx
+  #key-store-password: aLEcU0JV
+  #keyStoreType: PKCS12
+  #enabled: true
+
+
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://101.132.168.96:3306/blog?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=utf-8
+    url: jdbc:mysql://49.234.96.50:3306/blog?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=utf-8
     username: root
     password: root
    #JPA简化了数据库所有操作
@@ -14,6 +21,9 @@ spring:
       ddl-auto: update   #待实体类确定下来后改为none停止更新
     show-sql: true    #输出
 
+
+
+
   #日志配置
 logging:
   level:    #debug为所有都一个级别
@@ -21,5 +31,10 @@ logging:
     com.lxd: debug
   file:           #日志输出
     path: log/blog-dev.log
+
+  #mybatis
+mybatis:
+  mapper-locations: classpath:mappers/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: com.lxd.po
 
 

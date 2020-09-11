@@ -48,7 +48,7 @@
         </div>
         <div class="ui attached segment m-padding-tb-large" >
             <div  class="ui teal basic left pointing large label m-margin-tb-tiny"  th:each="tag : ${tags}"  >      <!--带颜色表示方法论这篇文章-->
-                <a href="#"  th:text="${tag.name}" style="font-weight: 800;" th:href="@{/to/getBlogByTag/{id}(id=${tag.id})}">方法论</a>
+                <a href="#"  th:text="${tag.name}" style="font-weight: 500;" th:href="@{/to/getBlogByTag/{id}(id=${tag.id})}">方法论</a>
                 <div class="detail" th:text="${#arrays.length(tag.blogs)}" th:href="@{/to/getBlogByTag/{id}(id=${tag.id})}">22</div>
             </div>
         </div>
