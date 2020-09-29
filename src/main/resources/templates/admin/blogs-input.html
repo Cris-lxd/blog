@@ -108,7 +108,7 @@
             <div class=" field">
                 <div class="ui left labeled input">
                     <label class="ui teal basic label">首图</label>
-                    <input type="text" name="firstPictures" value="https://picsum.photos/150/100" readonly placeholder="首图引用地址">  <!--th:value="*{firstPictures}"-->
+                    <input type="text" name="firstPictures" value="https://picsum.photos/150/100" placeholder="首图,default=">  <!--th:value="*{firstPictures}"-->
                 </div>
             </div>
 
@@ -210,7 +210,10 @@
             width   : "100%",
             height  : 450,
             syncScrolling : "single",
-            path    : "/lib/editormd/lib/"
+            path    : "/lib/editormd/lib/",
+            imageUpload    : true,
+            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : "/md/uploadImg",
         });
 
 
