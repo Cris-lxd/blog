@@ -20,6 +20,10 @@ spring:
     hibernate:
       ddl-auto: update   #待实体类确定下来后改为none停止更新
     show-sql: true    #输出
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
 
 
 
