@@ -4,8 +4,12 @@ package com.lxd.web;/*
  * */
 
 import com.alibaba.fastjson.JSONObject;
+import com.lxd.mapper.FileMapper;
+import com.lxd.po.User;
 import org.hibernate.annotations.Parameter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,23 +17,34 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.crypto.Data;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/test")
 public class UploadTest {
+    @Autowired
+    private FileMapper fileMapper;
 
     @RequestMapping("/tofileUpload")
-    public String tofileUpload(){
+    public String tofileUpload(Model model){
+
+        List<Map> maps = fileMapper.selectAll();
+        model.addAttribute("file",maps);
         return "fileUploadTest";
     }
 
     @RequestMapping("/fileUpload")
     @ResponseBody
-    public Object fileUpload(HttpServletRequest request, @RequestParam("file")MultipartFile file){
+    public Object fileUpload(HttpServletRequest request, HttpSession session, @RequestParam("file")MultipartFile file)
+    {
+        int num=0;
         try {
             String s = "";
             String filename = file.getOriginalFilename();
@@ -43,7 +58,8 @@ public class UploadTest {
             Date d = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String date = sdf.format(d);
-            FileOutputStream fs = new FileOutputStream(path + date+"_"+filename);
+            String name = date+"_"+filename;
+            FileOutputStream fs = new FileOutputStream(path + name);
 
             InputStream stream = file.getInputStream();
             byte[] b = new byte[stream.available()];
@@ -57,12 +73,23 @@ public class UploadTest {
             //fs.write(b);
             fs.close();
             stream.close();
+            Long userId = fileMapper.getUserId("Cris");
+            Map map = new HashMap<>();
+            map.put("name",name);
+            map.put("realName",filename);
+            map.put("path",path);
+            map.put("user_id",userId);
+            num = fileMapper.insertByFileName(map);
+
 
         }
         catch (Exception ex){
 
         }
-        Object success = JSONObject.toJSON("上传成功，位于服务器 /usr/uploadFile文件夹下");
+        Object success = null;
+        if(num == 1){
+        success = JSONObject.toJSON("上传成功，位于服务器 /usr/uploadFile文件夹下");
+        }
         return success;
     }
 
