@@ -1,5 +1,6 @@
 package com.lxd.web.admin;
 
+import com.lxd.po.Blog;
 import com.lxd.po.Type;
 import com.lxd.service.BlogService;
 import com.lxd.service.TypeService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by Cris on 2020/3/25
@@ -101,8 +103,14 @@ public class TypeController {
         return "redirect:/admin/types";
     }
 
+    //删除
     @GetMapping("/types/{id}/delete")
     public String delete(@PathVariable Long id,RedirectAttributes attributes){
+        List<Blog> blogByType = blogService.getBlogByType(id);
+        if(blogByType.size() != 0){
+            attributes.addFlashAttribute("message", "该分类下含有博客，无法删除");
+            return "redirect:/admin/types";
+        }
         typeService.deleteType(id);
         attributes.addFlashAttribute("message", "删除成功");
 

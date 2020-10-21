@@ -1,9 +1,8 @@
-2020-03-17 19:29:42.269  INFO 5048 --- [restartedMain] com.lxd.DemoApplication                  : Starting DemoApplication on DESKTOP-K9EIV5J with PID 5048 (E:\blog\target\classes started by Cris in E:\blog)
-2020-03-17 19:29:42.304  INFO 5048 --- [restartedMain] com.lxd.DemoApplication                  : The following profiles are active: pro
-2020-03-17 19:29:53.180  WARN 5048 --- [restartedMain] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
-2020-03-17 19:29:55.119  WARN 5048 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2020-03-17 19:29:56.706  INFO 5048 --- [restartedMain] com.lxd.DemoApplication                  : Started DemoApplication in 17.48 seconds (JVM running for 23.849)
-2020-03-17 19:32:02.895  INFO 8220 --- [restartedMain] com.lxd.DemoApplication                  : Starting DemoApplication on DESKTOP-K9EIV5J with PID 8220 (E:\blog\target\classes started by Cris in E:\blog)
-2020-03-17 19:32:02.911  INFO 8220 --- [restartedMain] com.lxd.DemoApplication                  : The following profiles are active: pro
-2020-03-17 19:32:17.065  WARN 8220 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2020-03-17 19:32:18.437  INFO 8220 --- [restartedMain] com.lxd.DemoApplication                  : Started DemoApplication in 18.13 seconds (JVM running for 23.763)
+2020-10-21 10:41:05.557  INFO 15688 --- [restartedMain] com.lxd.DemoApplication                  : Starting DemoApplication on DESKTOP-O4M9NPK with PID 15688 (started by 20224 in E:\idea project\blog)
+2020-10-21 10:41:05.662  INFO 15688 --- [restartedMain] com.lxd.DemoApplication                  : The following profiles are active: pro
+2020-10-21 10:41:30.228  WARN 15688 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-10-21 10:41:32.370  INFO 15688 --- [restartedMain] com.lxd.DemoApplication                  : Started DemoApplication in 31.09 seconds (JVM running for 38.943)
+2020-10-21 13:46:37.233  INFO 11696 --- [main] com.lxd.DemoApplicationTests             : Starting DemoApplicationTests on DESKTOP-O4M9NPK with PID 11696 (started by 20224 in E:\idea project\blog)
+2020-10-21 13:46:37.264  INFO 11696 --- [main] com.lxd.DemoApplicationTests             : The following profiles are active: pro
+2020-10-21 13:46:54.283  WARN 11696 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-10-21 13:46:56.834  INFO 11696 --- [main] com.lxd.DemoApplicationTests             : Started DemoApplicationTests in 20.995 seconds (JVM running for 24.339)

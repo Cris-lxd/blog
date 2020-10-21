@@ -15,4 +15,8 @@ public interface FileMapper {
     public int insertByFileName(Map map);
 
     public List<Map> selectAll();
+
+    public String selectById(Long id);
+
+    public int DeleteById(Long id);
 }

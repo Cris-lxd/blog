@@ -1,5 +1,6 @@
 package com.lxd.web.admin;
 
+import com.lxd.po.Blog;
 import com.lxd.po.Tag;
 import com.lxd.po.Type;
 import com.lxd.service.BlogService;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.Id;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by Cris on 2020/3/28
@@ -110,6 +112,12 @@ public class TagController {
     * */
     @GetMapping("/tags/{id}/delete")
     public String delete(@PathVariable Long id,RedirectAttributes attributes){
+        List<Blog> blogByTag = blogService.getBlogByTag(id);
+        if(blogByTag.size() != 0){
+            attributes.addFlashAttribute("message", "博客中含有该标签，无法删除");
+            return "redirect:/admin/tags";
+        }
+
         tagService.deleteTag(id);
         attributes.addFlashAttribute("message", "删除成功");
         return "redirect:/admin/tags";

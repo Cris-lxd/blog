@@ -70,17 +70,46 @@
 
 
 
-<div class="m-container-small m-padding-tb-massive">
+<div class="m-container m-padding-tb-massive">
+    <div class="ui success floating  message" th:unless="${#strings.isEmpty(message)}">
+        <i class="close icon"></i>
+        <div class="header">提示：</div>
+        <p th:text="${message}">恭喜！操作成功</p>
+    </div>
     <form action="/test/fileUpload" method="post" enctype="multipart/form-data">
 
         <input type="file" id="file" name="file" value="文件上传">
         <input type="submit" value="提交">
     </form>
     <h4>已上传文件列表</h4>
-    <ol >
-        <li th:each="file : ${file}" th:text="${file.real_name}" ></li>
-
-    </ol>
+    <table class="ui unstackable table">
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Size</th>
+            <th class="center aligned  aligned">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="file : ${file}">
+            <td th:text="${file.num}"></td>
+            <td th:text="${file.real_name}">Approved</td>
+            <td th:text="${file.size}">Approved</td>
+            <td class="center aligned selectable">
+                <div class="ui buttons">
+                    <button class="ui teal basic button">
+                        <a href="#" th:href="@{/test/download/{id}(id=${file.id})}">下载</a>
+                    </button>
+                    <div class="or"></div>
+                    <button class="ui orange basic  button">
+                        <a href="#" th:href="@{/test/delete/{id}(id=${file.id})}">删除</a>
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padding-tb-massive">    <!-- vertical 垂直-->
@@ -128,5 +157,14 @@
             method : "get",
         })
     }
+
+    $('.message .close')
+        .on('click', function() {
+            $(this)
+                .closest('.message')
+                .transition('fade')
+            ;
+        })
+    ;
 </script>
 </html>

@@ -8,13 +8,22 @@
     </select>
     
     <insert id="insertByFileName" parameterType="java.util.Map" >
-        insert into t_file(name,real_name,path,user_id) values (#{name,jdbcType=VARCHAR}
+        insert into t_file(name,real_name,path,user_id,size) values (#{name,jdbcType=VARCHAR}
                                                                 ,#{realName,jdbcType=VARCHAR}
                                                                 ,#{path,jdbcType=VARCHAR}
-                                                                ,#{user_id,jdbcType=BIGINT})
+                                                                ,#{user_id,jdbcType=BIGINT}
+                                                                ,#{size,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectAll" resultType="java.util.Map">
         select * from t_file
     </select>
+
+    <select id="selectById" parameterType="java.lang.Long" resultType="java.lang.String">
+        select name from t_file where id = #{id}
+    </select>
+
+    <delete id="DeleteById" parameterType="java.lang.Long">
+        delete from t_file where id = #{id}
+    </delete>
 </mapper>
