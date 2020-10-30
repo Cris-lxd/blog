@@ -16,7 +16,7 @@ public class File {
     private String name;
     private String realName;
     private String path;
-
+    private String size;
 
 
     @ManyToOne
@@ -64,6 +64,14 @@ public class File {
         this.realName = realName;
     }
 
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
     @Override
     public String toString() {
         return "File{" +
@@ -71,6 +79,7 @@ public class File {
                 ", name='" + name + '\'' +
                 ", realName='" + realName + '\'' +
                 ", path='" + path + '\'' +
+                ", size='" + size + '\'' +
                 ", user=" + user +
                 '}';
     }
