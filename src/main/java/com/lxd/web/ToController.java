@@ -82,14 +82,19 @@ public class ToController {
         List<Blog> all = blogRepository.findAll();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         List<Blog> blogWithDate = new ArrayList<Blog>();
+        List<Blog> blogWithDate1 = new ArrayList<Blog>();
         for (int i = 0; i < all.size(); i++) {
             String data = sdf.format(all.get(i).getCreateTime());
             if(data.substring(0,4).equals("2020")){
                 blogWithDate.add(all.get(i));
             };
+            if(data.substring(0,4).equals("2021")){
+                blogWithDate1.add(all.get(i));
+            };
         }
         model.addAttribute("blogNum",blogRepository.count());
         model.addAttribute("blogWithDate",blogWithDate);
+        model.addAttribute("blogWithDate1",blogWithDate1);
         model.addAttribute("recommendBlogs", blogService.listRecommendBlogTop(3));
         return "archives";
     }

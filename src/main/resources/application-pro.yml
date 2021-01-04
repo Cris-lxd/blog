@@ -5,8 +5,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://49.234.96.50:3306/blog?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=utf-8&useAffectedRows=true
-    username: root
-    password: root
+    username: cris
+    password: 970504
    #JPA简化了数据库所有操作
   jpa:
     hibernate:

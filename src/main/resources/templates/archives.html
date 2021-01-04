@@ -56,8 +56,17 @@
                 </span>
                 <div class="ui orange basic left pointing label m-padding-min m-text-thin" th:text="${blogWithDate.flag}">原创</div>
             </div>
+        </div>
 
-
+        <h2 class="ui header center aligned">2021</h2>
+        <div class="ui fluid vertical menu" >
+            <div class="item" th:each="blogWithDate1 : ${blogWithDate1}">
+                <span>
+                    <!--<i class="mini teal circle icon"></i>--><a class="ui header" style="list-style-type: none" th:text="${blogWithDate1.title}" th:href="@{/blog/{id}(id=${blogWithDate1.id})}">关于刻意练习的清单</a>
+                    <div class="ui teal basic left pointing label m-padding-min m-text-thin" th:text="${#dates.format(blogWithDate1.createTime,'yyyy-MM-dd')}">9月03</div>
+                </span>
+                <div class="ui orange basic left pointing label m-padding-min m-text-thin" th:text="${blogWithDate1.flag}">原创</div>
+            </div>
         </div>
     </div>
 </div>
