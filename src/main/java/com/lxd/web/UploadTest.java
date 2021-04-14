@@ -9,6 +9,7 @@ import com.lxd.mapper.FileMapper;
 import com.lxd.po.User;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.crypto.Data;
 import java.io.*;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,7 +56,7 @@ public class UploadTest {
         try {
             String s = "";
             String filename = file.getOriginalFilename();
-            if(filename == null || filename.equals("")){
+            if(filename == null || "".equals(filename)){
                 attributes.addFlashAttribute("message","无效文件");
             }
             String path = "/usr/uploadFile/";
@@ -90,16 +93,29 @@ public class UploadTest {
             map.put("user_id",userId);
 
             //处理大小
-            String MB = "";
-            String KB = "";
+            String Mb = "";
+            String Kb = "";
             if(size/1048576 >= 1){
-                double ceil = Math.ceil(size/1024);
-                MB = String.valueOf(ceil) + "mb";
-                map.put("size",MB);
+                //转为浮点型保留一位小数
+                float f = (float)size/1048576;
+                DecimalFormat df = new DecimalFormat("0.0");
+                String format = df.format(f);
+                final String substring = format.substring(format.lastIndexOf(".")+1,format.lastIndexOf(".")+2);
+                if("0".equals(substring)){
+                    Kb = format.substring(0,format.lastIndexOf(".")) +"mb";
+                }else{
+                    Kb = format +"mb";
+                }
+                map.put("size",Kb);
             }else{
-                double ceil = Math.ceil(size/1024);
-                KB = String.valueOf(ceil) + "kb";
-                map.put("size",KB);
+                double ceil = Math.ceil(size / 1024);
+                if(ceil == 0){
+                    Kb = "1kb";
+                }else{
+                    Kb = ceil + "kb";
+                }
+
+                map.put("size",Kb);
             }
 
             num = fileMapper.insertByFileName(map);
@@ -125,7 +141,7 @@ public class UploadTest {
             String path = "/usr/uploadFile/" + filename;
             File file = new File(path);
             FileInputStream fis = new FileInputStream(file);
-            downloadByInputstream(response,fis,filename);
+            downloadByInputstream(response,fis,filename,file);
         }
         catch (FileNotFoundException ex){
             attributes.addFlashAttribute("message","没有该文件，或已被删除");
@@ -142,15 +158,17 @@ public class UploadTest {
      * @param filename
      * @throws IOException
      */
-    public void downloadByInputstream(HttpServletResponse response,FileInputStream stream,String filename) throws IOException {
+    public void downloadByInputstream(HttpServletResponse response,FileInputStream stream,String filename,File file) throws IOException {
         InputStream is = new BufferedInputStream(stream);
         byte[] bytes = new byte[is.available()];
         /*is.read(bytes);
         is.close();*/
+
         response.reset();
         response.setCharacterEncoding("UTF-8");
         response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes("utf-8"),"ISO8859-1"));
         response.setContentType("application/octet-stream");
+        response.setHeader("Content-Length", ""+file.length());     //规定下载长度
         OutputStream os = response.getOutputStream();
 
         int lengthOfRead = 0;

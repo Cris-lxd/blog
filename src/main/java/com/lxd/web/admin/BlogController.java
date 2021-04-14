@@ -10,6 +10,7 @@ import com.lxd.service.TypeService;
 import com.lxd.vo.BlogQuery;
 import org.hibernate.query.criteria.internal.predicate.ExistsPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;

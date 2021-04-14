@@ -126,7 +126,7 @@
                             <img src="../static/images/1005-800x450.jpg" th:src="@{/images/1005-800x450.jpg}">
                         </a>
                         <div class="content">
-                            <a class="author" th:text="${comment.email}">Matt</a>
+                            <a class="author" th:text="${comment.name}">Matt</a>
                             <div class="metadata">
                                 <span class="date" th:text="${#dates.format(comment.createTime,'yyyy-MM-dd')}">Today at 5:42PM</span>
                             </div>
