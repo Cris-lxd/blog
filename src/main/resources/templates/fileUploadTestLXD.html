@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">   <!--引用  +传参    即使用thymeleaf模板自带的标题-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>file</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/pagination.css" th:href="@{/css/pagination.css}">
+    <link rel="stylesheet" href="../../static/css/me.css">   <!--引入模版-->
+    <link rel="stylesheet" href="../../static/lib/easyupload/easy_upload.css" th:href="@{/lib/easyupload/easy_upload.css}">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
+</head>
+<body>
+
+<!--    导航-->
+<nav th:replace="_fragments :: menu(1)" class="ui inverted attached segment m-padding-tb-min  m-shadow-small">
+    <!--inverted反转-->
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header m-lxd-blog">Cris</h2>
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>首页</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i>分类</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="clone icon"></i>归档</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="info icon"></i>关于我 </a>
+            <div class="right item m-mobile-hide">
+                <div class="ui icon inverted transparent input">
+                    <input type="text" placeholder="search......">
+                    <i class="search link icon"></i>
+                </div>
+            </div>    <!--right iten表示靠右-->
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-top-right m-mobile-show">
+        <!--menu toggle   没有显示意义，jquery获取元素-->
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+
+<div class="ui container">
+    <div class="m-container m-padding-tb-massive">
+        <div class="ui success floating  message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">恭喜！操作成功</p>
+        </div>
+        <div class="ui transparent huge icon input" style="width: 100%;margin-bottom: 10px">
+            <input type="text" id="lin" style="color: #00a8c6" placeholder="Enter your search here...">
+            <a onclick="clearAll()"><i class="close icon"></i></a>
+<!--            <a onclick="doSearch()"><i class="search icon"></i></a>-->
+        </div>
+        <div id="easy1" class="easy-upload"></div>
+        <h4>已上传文件列表</h4>
+        <table class="ui unstackable table fileTable">
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>No</th>-->
+<!--                <th>Name</th>-->
+<!--                <th>Size</th>-->
+<!--                <th class="center aligned  aligned">操作</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="file : ${file}">-->
+<!--                <td th:text="${file.num}"></td>-->
+<!--                <td th:text="${file.real_name}">Approved</td>-->
+<!--                <td th:text="${file.size}">Approved</td>-->
+<!--                <td class="center aligned selectable">-->
+<!--                    <div class="ui buttons">-->
+<!--                        <button class="ui teal basic button">-->
+<!--                            <a href="#" th:href="@{/test/download/{id}(id=${file.id})}">下载</a>-->
+<!--                        </button>-->
+<!--                        <div class="or"></div>-->
+<!--                        <button class="ui orange basic  button">-->
+<!--                            <a href="#" th:href="@{/test/delete/{id}(id=${file.id})}">删除</a>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+        </table>
+        <div id="pages">
+        </div>
+        <div id="pages_1" style="margin-top:100px"></div>
+    </div>
+</div>
+
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padding-tb-massive">
+    <!-- vertical 垂直-->
+    <div class="ui center aligned container">      <!--center aligned 表示container里面的东西全部居中-->
+        <div class="ui inverted divided stackable grid">    <!--grid默认16列-->
+            <div class="three wide column" align="center">     <!-- wide 填满   column 列-->
+                <img src="../../static/images/wxhy.jpg" th:src="@{../static/images/wxhy.jpg}" class="ui rounded image"
+                     alt="" style="width:110px">
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced">最新博客</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">用户故事(user store)</a>
+                    <a href="#" class="item">用户故事(user store)</a>
+                    <a href="#" class="item">用户故事(user store)</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header header m-text-thin m-text-spaced">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">Email:15234023889@163.com</a>
+                    <a href="#" class="item">QQ:1120620371</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui inverted header header m-text-thin m-text-spaced">Blog</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">这是我的个人博客，欢迎前来观看，仅提供学习只用，同各类同道中人一起交流发展</a>
+                </div>
+            </div>
+        </div>
+        <div class="ui inverted divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">晋ICP备2020014603号</p>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">copyright : © 2020 Designed by CRIS</p>
+    </div>
+
+</footer>
+
+</body>
+<div th:replace="_fragments :: script">
+    <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="../static/js/pagination.js" th:src="@{/js/pagination.js}"></script>
+    <script src="../static/lib/easyupload/easyUpload.js" th:src="@{/lib/easyupload/easyUpload.js}"></script>
+    <script src="https://www.jq22.com/jquery/bootstrap-4.2.1.js"></script>
+    <script src="../static/js/lin_search.js" th:src="@{/js/lin_search.js}"></script>
+</div>
+<script type="text/javascript">
+    $(function() {
+        getPage();  //待调用的函数
+        getCanvas();
+    });
+
+    // $("#lin").on('keyup', function () {
+    //     var table1 = $(".fileTable");
+    //     var input = $(this);
+    //     new Search(table1, input,)
+    //
+    // })
+
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');   /*点击有这个效果就删除，没有这个效果就增加*/
+    })
+
+    function download() {
+        $.ajax({
+            url: "/test/download",
+            method: "get",
+        });
+
+    }
+
+    function deleteById(id){
+        var r = confirm("确定删除吗");
+        if(r == true){
+            debugger;
+            $.ajax({
+                url: "/test/delete/"+id,
+                method: "post",
+                data:{
+                    page:this.pageIndex,
+                },
+                success(data){
+                    getMessage("success","删除成功");
+                    getPage(this.pageIndex);
+                }
+            })
+        }
+    }
+
+    $('.message .close')
+        .on('click', function () {
+            $(this)
+                .closest('.message')
+                .transition('fade')
+            ;
+        }) ;
+
+
+    /**
+     * 获取页面数据
+     */
+    function getPage(index){
+        console.log("a");
+        $.ajax({
+            url:"/test/tofileUploadLXD",    //请求的url地址
+            // async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+            method: "get",
+            data: {
+                index : index
+            },
+            success:function(res){
+                //请求成功时处理
+                debugger;
+                var a = res.currentPage
+                var data = res.dataList;
+                initPage(res)
+                initTable(data);
+            }
+        })
+    }
+
+    /*加载页面表格数据*/
+    function initTable(data){
+        var html = '';
+        html += '<thead>\n' +
+            '            <tr>\n' +
+            '                <th>No</th>\n' +
+            '                <th>Name</th>\n' +
+            '                <th>Size</th>\n' +
+            '                <th class="center aligned  aligned">操作</th>\n' +
+            '            </tr>\n' +
+            '            </thead>\n' +
+            '            <tbody>\n'
+        for (var i=0;i<data.length;i++){
+            html += '<tr>';
+            html += '<td>'+data[i].num+'</td>';
+            html += '<td>'+data[i].real_name+'</td>';
+            html += '<td>'+data[i].size+'</td>';
+            html += '<td class="center aligned selectable">\n' +
+                '            <div class="ui buttons">\n' +
+                '                <button class="ui teal basic button">';
+            html += '<a href="/test/download/'+data[i].id+'">下载</a>';
+            html += '</button>\n' +
+                '                <div class="or"></div>\n' +
+                '                <button class="ui orange basic  button">';
+            // html += '<a href="/test/delete/'+data[i].id+'">删除</a>';
+            html += '<a onclick="deleteById('+data[i].id+')" style="cursor: pointer;">删除</a>\n'
+            html += '</button>\n' +
+                '            </div>\n' +
+                '        </td>\n' +
+                '    </tr>';
+        }
+        html += '</tbody>';
+        $('.fileTable').html(html);
+    }
+
+    /**
+     * 初始化分页
+     * @param data
+     */
+    function initPage(data){
+        new Pagination({
+            element: '#pages',
+            type: 1,
+            pageIndex: data.currentPage,
+            pageSize: 15,
+            pageCount: Number(data.totalPage),
+            total: data.totalRecord,
+            jumper: true,
+            singlePageHide: false,
+            prevText: '上一页',
+            nextText: '下一页',
+            disabled: true,
+            currentChange: function(index) {
+                getPage(index);
+            }
+        });
+    }
+
+    easyUpload({
+        easyId: 'easy1',
+        action: '/test/fileUpload',
+        // accept: '.jpg,.png,.gif,.docx',
+        accept: '*',
+        maxSize: 500,
+        buildSendData: function(file) {
+            var formData = new FormData(); // 发送格式为formData时
+            formData.append('file', file.file)
+            return formData;
+        },
+        checkSuccessCode: function(xhr) {
+            if (xhr.status == 200) { //这里判断仅仅用于测试，具体看项目
+                getMessage("success","上传成功");
+                return true;
+            } else {
+                return false;
+            }
+        }
+    });
+
+    function doSearch(){
+        let text = $('#lin').val();
+        $.ajax({
+            url:"/test/searchByText",    //请求的url地址
+            // async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+            method: "get",
+            data: {
+                index : 1,
+                text : text,
+            },
+            success:function(data){
+                debugger;
+                initPage(data)
+                initTable(data.dataList)
+            }
+        });
+    };
+
+    $("#lin").on('keypress', function(event) {
+        if (event.keyCode == 13) {
+            doSearch();
+        }
+    })
+
+    function clearAll(){
+        $('#lin').val("");
+    }
+</script>
+</html>
